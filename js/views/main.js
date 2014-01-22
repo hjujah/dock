@@ -4,7 +4,7 @@ Copyright Kitchen S.R.O. May 2013.
 Author: Filip Arneric
 */
 
-define(['app'], function(App) {
+define(['app','tweenmax'], function(App) {
 	
 	 App.Views.Main = Backbone.View.extend({   
 	    el: 'body',
@@ -13,11 +13,14 @@ define(['app'], function(App) {
 	        'click .links' : 'changeRoute',
 	    },  
 	    
+		    
 	  	render: function(){
+	  		
+	  		var self = this;
 	  		
 		  	this.view = App.Pages[App.activepage].view;
 		  	this.view.collection =  App.Pages[App.activepage].collection;		  	
-            this.view.render();   
+            this.view.render(); 
 		  	
 	  	},
 	  		    

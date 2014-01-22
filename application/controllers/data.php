@@ -21,20 +21,7 @@ class Data extends CI_Controller {
 
 	public function _remap()
     {	
-		//products, cateogories and brands
-		$this->load->model('products_model');
-		$data['products'] = $this->products_model->get_all();
-		$data['categories'] = $this->products_model->get_all_categories();
-		$data['brands'] = $this->products_model->get_all_brands();
-		$data['references'] = $this->products_model->get_all_references();
-		
-		//pages
-		$data['pages'] = $this->products_model->get_all_pages();
-		
-		//news
-		$this->load->model('news_model');
-		$data['news'] = $this->news_model->get_all();
-		
+
 		//home
 		$this->load->model('home_model');
 		$data['home'] = $this->home_model->get_all();
