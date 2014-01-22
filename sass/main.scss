@@ -348,6 +348,7 @@ img{
 	.mobileAutoHeight{
 		height: auto!important;
 	}
+}
 
 
 //about
@@ -393,9 +394,9 @@ img{
     width: 100%;
 }
 
-    #svg-container svg {
-        z-index: 300;
-    }
+#svg-container svg {
+    z-index: 300;
+}
 
 #svg-container,
 #scenes-container,
@@ -466,3 +467,4 @@ img{
 #svg-container.noSelect {
     z-index: -500;
 }
+
