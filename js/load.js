@@ -28,7 +28,8 @@ require.config({
         'royal' : 'libs/jquery.royalslider.min',
         'cssPlugin' : 'libs/CSSPlugin',
         'easing' : 'libs/masterslider/jquery.easing.min',
-        'fittext' : 'libs/jquery.fittext'
+        'fittext' : 'libs/jquery.fittext',
+        'raphael' : 'libs/raphael'
     },
     shim: {
         bootstrap: {
