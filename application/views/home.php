@@ -17,11 +17,11 @@ Filip Arneric
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Aida">
+    <meta name="description" content="Dock">
     <meta name="author" content="Filip Arneric- Kitchen">
     <link rel="shortcut icon" href="../../assets/ico/favicon.png">
 
-    <title>Aida</title>
+    <title>Dock</title>
 
     <!-- Generated CSS file -->
     <link href="<?php echo base_url('css/main.css') ?>" rel="stylesheet">
