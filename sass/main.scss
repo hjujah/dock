@@ -425,10 +425,14 @@ img{
     -ms-transition: opacity 300ms ease, -ms-transform 1000ms ease;
     -o-transition: opacity 300ms ease, -o-transform 1000ms ease;
     transition: opacity 300ms ease, transform 1000ms ease;
+    @media (max-width: 480px) {
+		background-size:contain!important;
+	}
 }
 
 #scenes-container .showScene {
     opacity: 1;
+    z-index: 200;
     @include transform(scale(1));
 }
 
@@ -453,12 +457,8 @@ img{
     -webkit-transform: translateZ(0px);
 }
 
+.showCaption,
 .caption:hover {
-    opacity: 1!important;
-    visibility: visible!important;
-}
-
-.showCaption {
     margin-left: 0;
     opacity: 1;
     visibility: visible;
@@ -466,5 +466,48 @@ img{
 
 #svg-container.noSelect {
     z-index: -500;
+}
+
+#overlay {
+	background: #000;
+	height: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+	opacity: 0;
+	width: 100%;
+	z-index: 200;
+	-webkit-transition: opacity 300ms ease;
+    -moz-transition: opacity 300ms ease;
+    -ms-transition: opacity 300ms ease;
+    -o-transition: opacity 300ms ease;
+    transition: opacity 300ms ease;
+}
+
+#flat-popin {
+	background: #fff;
+	height: 50%;
+	opacity: 0;
+	left: 20%;
+	padding: 2%;
+	position: absolute;
+	top: 20%;
+	width: 60%;
+	z-index: 250;
+	@include transform(translateZ(0px));
+	-webkit-transition: opacity 400ms ease, top 400ms ease;
+    -moz-transition: opacity 400ms ease, top 400ms ease;
+    -ms-transition: opacity 400ms ease, top 400ms ease;
+    -o-transition: opacity 400ms ease, top 400ms ease;
+    transition: opacity 400ms ease, top 400ms ease;
+}
+
+#overlay.showPopin {
+	opacity: 0.8;
+}
+
+#flat-popin.showPopin {
+	opacity: 1;
+	top: 25%;
 }
 

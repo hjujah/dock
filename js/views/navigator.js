@@ -15,10 +15,13 @@ define(['app', 'raphael', 'text!templates/navigator.html'], function(App, raphae
         svgWidth: 851,
         svgHeight: 349,
         paper: '',
+        events: {
+            "click #overlay" : "hidePopin"
+        },
                                         
         render: function() {
         	var self = this;
-        	
+        	 
         	//compile template
             var template = Handlebars.compile(self.template);
             self.content = template({
@@ -29,7 +32,7 @@ define(['app', 'raphael', 'text!templates/navigator.html'], function(App, raphae
             // init paper
             self.paper = Raphael('svg-container', '100%', '100%');
 
-            // the following line makes the Raphael paper fill its container
+            // make the Raphael paper fill its container
             self.paper.setViewBox(0, 0, self.svgWidth, self.svgHeight, true);
 
             self.getData();
@@ -43,29 +46,29 @@ define(['app', 'raphael', 'text!templates/navigator.html'], function(App, raphae
         getData: function() {
             var self = this;
 
-            // get data of the flats
-            $.getJSON(App.baseurl + "js/data/flats.json", function(data) {
-                self.flats = data;
-            });
-
             // get data of buildings
             $.getJSON(App.baseurl + "js/data/buildings.json", function(data) {
                 self.buildings = data;
 
-                if(App.subparam) {
-                    self.drawFloor(App.param, App.subparam);
-                }
-                else if(App.param) {
-                    self.drawBuilding(App.param);
-                } else {
-                    self.drawScene();
-                }
+                 // get data of the flats
+                $.getJSON(App.baseurl + "js/data/flats.json", function(dataFlats) {
+                    self.flats = dataFlats;
+
+                    // call function based on params (current url)
+                    if(App.subparam) {
+                        self.drawFloor(App.param, App.subparam);
+                    }
+                    else if(App.param) {
+                        self.drawBuilding(App.param);
+                    } else {
+                        self.drawScene();
+                    }
+
+                });
             });
         },
 
         drawScene: function() {
-            this.clearPaper();
-
             // transition images
             $('.scene').not('#scene').removeClass('showScene');
             $('#scene').addClass('showScene');
@@ -87,14 +90,16 @@ define(['app', 'raphael', 'text!templates/navigator.html'], function(App, raphae
         },
 
         handleClickBuilding: function() {
-            var self = App.Views.navigator;
+            var self = App.Views.navigator,
+                nbBuilding = this.data('building');
 
-            self.clearPaper();
+            $('.scene').removeClass("showScene");
+            $("#svg-container").addClass("noSelect");
 
-            var nbBuilding = this.data('building');
-
-            // show up the building depending on the number
-            self.drawBuilding(nbBuilding);
+            setTimeout(function() {
+                // navigate to the building and draw building
+                App.Router.navigate(App.lang + "/navigator/" + nbBuilding, {trigger: true});
+            }, 300);
         },
 
         styleElements: function() {
@@ -115,21 +120,16 @@ define(['app', 'raphael', 'text!templates/navigator.html'], function(App, raphae
             }
         },
 
-        clearPaper: function() {
-            // clear all paths of the svg and reset elements object
-            this.paper.clear();
-            this.els = {};
-        },
-
         svg_mouseover: function() {
             // if element contains data : display it in caption
             if(this.data("content")) {
-                $(".caption").text(this.data("content"));
-                $(".caption").addClass("showCaption");
+                $(".caption").addClass("showCaption").text(this.data("content"));
 
                 // position caption
-                $(".caption").css("left", ((this.getBBox().x + this.getBBox().width) - 70) + "px");
-                $(".caption").css("top", ((this.getBBox().y + this.getBBox().height) - 70) + "px");
+                $(".caption").css({
+                    'left': this.getBBox().x + this.getBBox().width + "px",
+                    'top': this.getBBox().y + this.getBBox().height + "px"
+                });
             }
 
             this.animate({opacity: 0.5}, 100);
@@ -142,10 +142,6 @@ define(['app', 'raphael', 'text!templates/navigator.html'], function(App, raphae
 
         drawBuilding: function(nbBuilding) {
             var self = this;
-
-            App.Router.navigate(App.lang + "/navigator/" + nbBuilding, {trigger: true});
-
-            self.clearPaper();
 
             // get the floors of the building
             var building = self.getBuilding(nbBuilding);
@@ -160,9 +156,9 @@ define(['app', 'raphael', 'text!templates/navigator.html'], function(App, raphae
 
                 self.els[f.id] = self.paper.path(f.path);
                 self.els[f.id].data({
-                    "floor": f.id,
-                    "building": nbBuilding,
-                    "img": f.img
+                    'floor': f.id,
+                    'building': nbBuilding,
+                    'img': f.img
                 });
                 self.els[f.id].click(self.handleClickFloor);
             }
@@ -171,11 +167,18 @@ define(['app', 'raphael', 'text!templates/navigator.html'], function(App, raphae
         },
 
         handleClickFloor: function() {
-            var self = App.Views.navigator;
+            var self = this;
 
-            self.drawFloor(this.data("building"), this.data("floor"));
+            $('.scene').removeClass("showScene");
+            $("#svg-container").addClass("noSelect");
+
+            setTimeout(function() {
+                // navigate to floor and draw floor
+                App.Router.navigate(App.lang + "/navigator/" + self.data("building") + "/" + self.data("floor"), {trigger: true});
+            }, 300);
         },
 
+        // returns the building object based on the number
         getBuilding: function(nb) {
             var self = this;
 
@@ -187,22 +190,18 @@ define(['app', 'raphael', 'text!templates/navigator.html'], function(App, raphae
 
         drawFloor: function(nbBuilding, nbFloor) {
             var self = this;
-            self.clearPaper();
-
-            App.Router.navigate(App.lang + "/navigator/" + nbBuilding + "/" + nbFloor, {trigger: true});
 
             // get the floors of the building
-            var building = self.getBuilding(nbBuilding);
-            var floors = building[0].floors;
+            var building = self.getBuilding(nbBuilding),
+                floors = building[0].floors;
 
             var floor = jQuery.grep(floors, function(element, index){
               return element.id == nbFloor;
             });
-            var img = floor[0].img;
 
-            self.transitionImages(img);
+            self.transitionImages(floor[0].img);
 
-            // filter flats, get only those who are from building n°3 and floor n°5
+            // filter flats
             var flatsFiltered = jQuery.grep(self.flats, function(element, index){
               return element.building == nbBuilding && element.floor == nbFloor;
             });
@@ -213,6 +212,7 @@ define(['app', 'raphael', 'text!templates/navigator.html'], function(App, raphae
 
                 self.els[f.id] = self.paper.path(f.path);
                 self.els[f.id].data("content", f.code);
+                self.els[f.id].data("id", f.id);
                 self.els[f.id].click(self.handleClickFlat);
             }
 
@@ -222,43 +222,56 @@ define(['app', 'raphael', 'text!templates/navigator.html'], function(App, raphae
             for(var i=0; i<flatsFiltered.length; i++) {
                 var f = flatsFiltered[i];
 
-                // if it's not available
+                // if it's not available, change style and data
                 if(f.rented) {
-                    self.els[f.id].attr("fill", "red");
-                    self.els[f.id].data("content", "Sold");
+                    self.els[f.id].attr({
+                        'stroke': 'red',
+                        'fill': 'red'
+                    });
+                    self.els[f.id].data('content', 'sold');
                 }   
             }
         },
 
         handleClickFlat: function() {
-            var info = this.data('content');
+            var self = App.Views.navigator,
+                id = this.data('id');
 
-            alert(info);
+            var flat = jQuery.grep(self.flats, function(element, index){
+              return element.id == id;
+            });
 
-            // !!! todo : display flat info
+            self.showPopin(flat);
         },
 
-        // !!! todo : remove settimeouts
-        transitionImages: function(img) {
+        showPopin: function(flat) {
+            // temporary code - todo: template
             $("#svg-container").addClass("noSelect");
+            $("#flat-popin").empty().append("<h2>Flat code : " + flat[0].code + "</h2>");
+            $("#flat-popin").append("<p>Area : " + flat[0].area + "</p>");
+            $("#flat-popin").append("<p>Garden : " + flat[0].garden + "</p>");
+            $("#flat-popin").append("<p>Price : " + flat[0].price + "KC</p>");
+
+            $("#flat-popin, #overlay").addClass("showPopin");
+        },
+
+        hidePopin: function(e) {
+            e.preventDefault();
+            $("#svg-container").removeClass("noSelect");
+            $("#flat-popin, #overlay").removeClass("showPopin");
+        },
+
+        transitionImages: function(img) {
+            // create div with new image
             var id = img.split('/').pop().split('.')[0];
-
             $("#scenes-container").prepend("<div class='scene' id='" + id + "'></div>");
-
             $('#' + id).css('background-image', 'url(' + App.baseurl + '/img/' + img + ')');
 
+            // show the new div
             setTimeout(function() {
-                $('.scene').removeClass("showScene");
-
                 $('#' + id).addClass("showScene");
                 $("#svg-container").removeClass("noSelect");
-
-                setTimeout(function() {
-                    $(".scene").not('#' + id + ', #scene').remove();
-                }, 500);
-                
             }, 100);
-            
         }
 
     });
