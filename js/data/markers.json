@@ -1,0 +1,37 @@
+[
+	{
+		"id": 1,
+		"title": "Lorem ipsum dolor sit amet",
+		"lat": "50.075577",
+		"lng" : "14.43781",
+		"type": "restaurant"
+	},
+	{
+		"id": 2,
+		"title": "Lorem ipsum",
+		"lat": "50.075561",
+		"lng" : "14.424994",
+		"type": "lorem"
+	},
+	{
+		"id": 3,
+		"title": "Lorem ipsum dolor sit amet Lorem ipsum",
+		"lat": "50.076695",
+		"lng" : "14.450000",
+		"type": "restaurant"
+	},
+	{
+		"id": 4,
+		"title": "Lorem ipsum",
+		"lat": "50.069674",
+		"lng" : "14.408176",
+		"type": "restaurant"
+	},
+	{
+		"id": 5,
+		"title": "test test",
+		"lat": "50.080674",
+		"lng" : "14.408176",
+		"type": "testtype"
+	}
+]
