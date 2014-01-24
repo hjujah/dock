@@ -425,7 +425,7 @@ img{
     -ms-transition: opacity 300ms ease, -ms-transform 1000ms ease;
     -o-transition: opacity 300ms ease, -o-transform 1000ms ease;
     transition: opacity 300ms ease, transform 1000ms ease;
-    @media (max-width: 480px) {
+    @media (max-width: 320px) {
 		background-size:contain!important;
 	}
 }
@@ -500,6 +500,12 @@ img{
     -ms-transition: opacity 400ms ease, top 400ms ease;
     -o-transition: opacity 400ms ease, top 400ms ease;
     transition: opacity 400ms ease, top 400ms ease;
+}
+
+.scene.fixWindow,
+#svg-container.fixWindow {
+	left: 50%;
+	max-width: none;
 }
 
 #overlay.showPopin {

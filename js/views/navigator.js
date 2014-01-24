@@ -36,6 +36,10 @@ define(['app', 'raphael', 'text!templates/navigator.html'], function(App, raphae
             self.paper.setViewBox(0, 0, self.svgWidth, self.svgHeight, true);
 
             self.getData();
+
+            $(window).resize(function() {
+                self.fixWindow();
+            });
         },
 
         initialize: function() {
@@ -63,7 +67,6 @@ define(['app', 'raphael', 'text!templates/navigator.html'], function(App, raphae
                     } else {
                         self.drawScene();
                     }
-
                 });
             });
         },
@@ -82,6 +85,7 @@ define(['app', 'raphael', 'text!templates/navigator.html'], function(App, raphae
             }
 
             this.styleElements();
+            this.fixWindow();
 
             // add click event handler on each building
             for (var i in this.els) {
@@ -262,16 +266,44 @@ define(['app', 'raphael', 'text!templates/navigator.html'], function(App, raphae
         },
 
         transitionImages: function(img) {
+            var self = this;
+
             // create div with new image
             var id = img.split('/').pop().split('.')[0];
             $("#scenes-container").prepend("<div class='scene' id='" + id + "'></div>");
-            $('#' + id).css('background-image', 'url(' + App.baseurl + '/img/' + img + ')');
+            $('#' + id).css('background-image', 'url(' + App.baseurl + 'img/' + img + ')');
 
             // show the new div
             setTimeout(function() {
                 $('#' + id).addClass("showScene");
                 $("#svg-container").removeClass("noSelect");
+                self.fixWindow();
             }, 100);
+        },
+
+        fixWindow: function() {
+            var self = this;
+
+            var h = ($("#svg-container").width() * self.svgHeight) / self.svgWidth;
+            var w = ($("#svg-container").height() * self.svgWidth) / self.svgHeight;
+
+            if($(window).height() <= (h + 50)) {
+                $("#svg-container, .scene").height(h);
+                $("#main").css("overflow", "hidden");
+            } else {
+                $("#svg-container, .scene").height("100%");
+                 $("#main").css("overflow", "inherit");
+            }
+
+            if(($(window).width() <= (w/2)) && $(window).width() > 320) {
+                $("#svg-container, .scene").addClass("fixWindow").width(w/2);
+                $("#svg-container, .scene").css("margin-left", - (w/4));
+                $("#main").css("overflow", "hidden");
+            } else {
+                $("#svg-container, .scene").removeClass("fixWindow").width("100%");
+                $("#svg-container, .scene").css("margin-left", 0);
+                $("#main").css("overflow", "inherit");
+            }
         }
 
     });
