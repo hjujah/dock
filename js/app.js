@@ -2,7 +2,7 @@ define(['jquery', 'underscore', 'backbone', 'handlebars'], function ($, _, Backb
 
     var App = {
         Views: {},
-        firstLoad: true,
+        firstInit: true,
         baseurl: absurl
     };
 

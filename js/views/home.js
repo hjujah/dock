@@ -1,5 +1,5 @@
 /*
-Dock Page
+Dock Home Page
 Author: Filip Arneric
 */
 
@@ -8,8 +8,14 @@ define(['app', 'text!templates/home.html'], function(App, Template) {
     App.Views.Home = Backbone.View.extend({
         el: '#main',
         template: Template,
-        firstInit: true,
         curSlide: 1,
+        
+        destroy_view: function() {	
+        	var self = this;      
+		    this.tlReveal = null;
+		    clearTimeout(this.t);
+		    console.log("DESTROY");
+	    },
         
         slider: function(){
 		  	
@@ -18,27 +24,32 @@ define(['app', 'text!templates/home.html'], function(App, Template) {
 		  	var $im1 = self.$(".img1");
 		  	var $im2 = self.$(".img2");
 		  	
-		  	self.tlReveal && self.tlReveal.pause(); 
- 			
+		  	self.tlReveal && self.tlReveal.pause(); 		
  			self.curSlide = (self.curSlide < self.collection.length - 1) ? ++self.curSlide : 0;
             
-            var secondImg = $('#img2Holder img').attr("src");
+            var secondImg = $('.img2').css("background-image");
             var newSrc = self.collection[self.curSlide].src;
                 
             self.tlReveal = new TimelineMax({
             	autoRemoveChildren: false, 
             	onComplete: function(){
-            	
-                	$(".firstImage img").attr('src',secondImg);
-                	$(".slides, .img1").removeAttr("style");
-                	$(".img2").attr('src', absurl+"img/home/"+newSrc);
                 	
-                	TweenMax.to($im2, 0, {
-		                x: '1000px',
-		                onComplete: function(){ }
-		             })  
+                	$im1.css({
+	                	'background-image': secondImg,
+	                	 transform: 'translateX(0)'
+                	});
+        	       	
+                	$boxes.add($im1).css("left",0);
+              	           	
+                	$im2.css('background-image', 'url(' + absurl+"img/home/"+newSrc + ')');
                 	
-                	var t = setTimeout(function(){
+                	/*
+TweenMax.to($im2, 0, {
+		                x: '1400px'
+		            })  
+*/
+                	
+                	self.t = setTimeout(function(){
 	                	self.slider();
                 	},3000)
                 	
@@ -58,21 +69,24 @@ define(['app', 'text!templates/home.html'], function(App, Template) {
                 }
             })          
             
+            
             self.tlReveal.staggerTo($boxes, .4, {
             	left: '-12.5%',
-            	ease:"Quad.easeOut"
+            	ease:"Quart.easeOut"
             }, .08);
             
             self.tlReveal2.staggerTo($im1, .8, {
-            	left: '50%',
-            	ease:"Quad.easeOut",
-            	//delay: 0.2
+            	x: 500,
+            	ease:"Quart.easeOut",
+            	delay: 0
             }, .04);
             
-            self.tlReveal3.staggerTo($im2, .4, {
+          /*
+  self.tlReveal3.staggerTo($im2, .4, {
             	x: '0',
-            	ease:"Quad.easeOut"
+            	ease:"Quart.easeOut"
             }, .04);
+*/
             
 		  	  
 	    },
@@ -88,13 +102,11 @@ define(['app', 'text!templates/home.html'], function(App, Template) {
                 data: self.model
             }); 
         	self.$el.html(self.content);  
-        	
-        	            
+        	       	            
             var t = setTimeout(function(){
 	            self.slider();
-            }, 1200); 
+            }, 5200); 
         	
-        	console.log(this.collection);
         },
 
         initialize: function() {

@@ -11,13 +11,12 @@
     font-family:'FuturaBT-LightCondensed';src:url("fonts/275A26_C_0.eot");src:url("fonts/275A26_C_0.eot?#iefix") format("embedded-opentype"),url("fonts/275A26_C_0.woff") format("woff"),url("fonts/275A26_C_0.ttf") format("truetype")
 }
 
-
 //general
 html,body{
 	height: 100%;
 	width:100%;
 	position: relative;
-	background: black;
+	background: #222;
 	font-family: 'FuturaBT-LightCondensed';
 }
 
@@ -26,6 +25,7 @@ html,body{
 	height:100%;
 	height: 100%;
 	width: 100%;
+	@include calc(height, "100% - 100px");
 	
 	@media (max-width: 1199px) {
 		width: 100%;
@@ -35,6 +35,9 @@ html,body{
 	
 }
 
+.absolute{
+	position: absolute;
+}
 
 .hiddenOverflow{
 	overflow: hidden;
@@ -151,6 +154,11 @@ a, a:focus {
 	margin-top: 0;
 }
 
+.liquid{
+	height:100%;
+	width:100%;
+	z-index: -1;
+}
 
 img{
 	-moz-user-select: none; /* These user-select properties are inheritable, used to prevent text selection */
@@ -209,26 +217,28 @@ img{
 	
 		.slide{
 			width:100%;
+			height:100%;
 			position: absolute;
 			
-			
-			img{
+			div{
 				width:100%;
+				height: 100%;
 			}
 		}
 		
 		.img1{
-			position: relative;
+			background-size: cover;
 		}
 		
 		.img2{
-			@include transform(translateX(-100%) translateZ(0));
+			@include transform(/* translateX(-100%) */ translateZ(0));
+			background-size: cover;
 		}
 		
 		.secondImage{
 			left: 12.5%;
 			overflow: hidden;
-			img{
+			div{
 				position: relative;
 			}
 		}
@@ -248,7 +258,7 @@ img{
 		}
 		
 		.secondImage{
-			img{
+			div{
 				left:-12.5%;
 			}
 		}
@@ -263,7 +273,7 @@ img{
 		}
 		
 		.secondImage{
-			img{
+			div{
 				left: -25%;
 			}
 		}
@@ -277,7 +287,7 @@ img{
 		}
 		
 		.secondImage{
-			img{
+			div{
 				left:-37.5%;
 			}
 		}
@@ -291,7 +301,7 @@ img{
 		}
 		
 		.secondImage{
-			img{
+			div{
 				left:-50%;
 			}
 		}
@@ -305,7 +315,7 @@ img{
 		}
 		
 		.secondImage{
-			img{
+			div{
 				left:-62.5%;
 			}
 		}
@@ -319,7 +329,7 @@ img{
 		}
 		
 		.secondImage{
-			img{
+			div{
 				left:-75%;
 			}
 		}
@@ -333,7 +343,7 @@ img{
 		}
 		
 		.secondImage{
-			img{
+			div{
 				left:-87.5%;
 			}
 		}
@@ -351,34 +361,45 @@ img{
 }
 
 
-//about
-.contentHolder{
-	padding: $padding / 2;
-	.content{
-		border-top: 3px solid $lightGrey;
-		background: transparent url(../img/aboutSeparator.png) no-repeat center bottom;
-		padding: $padding/2 0;
-	}
+/*************** CUBE ***************/
+.cube-wrap {
+	@include perspective( 800px );
+	height: 100%;
+	float:left;
 }
 
-//stripes
-.stripes{
-	position: fixed;
-	width:100%;	
-	height:100%;
-	@include calc(height, "100% - 80px");
-	@include calc(width, "100% - 80px");
-	z-index: 2;
+.cube {
+	position: relative;
+	width: 100%;
+	height:100%;	
+	@include transform(rotate(180deg));		
+	@include transform-style( preserve-3d )	
 }
 
-.stripe{
-	background: blue;
-	@include transform(translateZ(0px));
+.cube .side {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	background: rgba(255,255,255,1);
+	font-size: 20px;
+	text-align: center;
+	font-family: sans-serif;	
+	overflow: hidden;
 }
 
+.depth div.left-pane {
+	@include transform-origin( center,left );	
+}
 
+.depth div.back-pane {
+}
 
+.depth div.right-pane {
+}
 
+.depth div.front-pane {
+	
+}
 
 
 

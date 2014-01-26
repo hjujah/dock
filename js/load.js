@@ -77,6 +77,6 @@ require.config({
     }
 });
 
-require([ 'app', 'scripts', 'loadApp', "modernizr" ],function ( App ) {
+require([ 'app', 'scripts', 'loadApp' ],function ( App ) {
 	
 })

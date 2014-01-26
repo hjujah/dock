@@ -24,9 +24,14 @@ define(['app'], function(App) {
 		   App.activepage = mod || 'home';  
 		   App.param = (id) ? id : ''; 
 		   App.subparam = (subid) ? subid : '';
+		   App.paramsNo = (id) ? 1 : (subid) ? 2 : 0;
 		   
+		   //render main content
 		   App.Main.render();
-		      	  
+		   
+		   //render navigation
+		   App.firstInit && App.Views.navigation.render();  	
+		        
 		   App.firstInit = false;
 		},
 		

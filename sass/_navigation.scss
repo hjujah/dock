@@ -3,154 +3,20 @@
 
 #navigation{
 	position: fixed;
-	height: 100%;
-	width: $menuWidth;
-	right:0;
+	height: 100px;
+	width: 100%;
+	left: 0;
+	bottom: 0;
+	background: #fff;
+	z-index: 999999;
+	border-top:2px solid black;
+
 	
 	@media (max-width: 1199px) {
-		height:auto;
+		/*
+height:auto;
 		position: relative;
-	}
-	
-}
-
-#desktopNav{
-	width:100%;
-	height:100%;
-	background: $black/*  url(../img/menuBg.jpg) no-repeat 0 0 */;
-	background-size:contain;
-	-ms-behavior: url(http://www.wheniamplaying.com/aidaPHP/js/vendor/backgroundsize.min.htc);
-	
-	#linksHolder{
-		@include calc(height, "100% - 190px");
-		position: relative;
-		top: 150px
-	}
-	
-	
-	a{
-		font-size:18px;
-		margin: 0;
-		margin-bottom: 8%;
-		color:$grey;
-		z-index: 2;
-		position: relative;
-		text-decoration: none;
-/* 		text-transform: uppercase; */
-	}
-	
-	a:hover{
-		color:#fff;
-		text-decoration: none;
-	}
-	
-	a.active{
-		//background: transparent url(../img/active.jpg) no-repeat 0 0;
-		color:#fff;
-	}
-	
-	#subNavHolder{
-		position: absolute;
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 100%;
-		display:none;
-		background: white /* url(../img/menuBgWhite.jpg) no-repeat 0 0 */;
-		background-size: contain;
-		-ms-behavior: url(http://www.wheniamplaying.com/aidaPHP/js/vendor/backgroundsize.min.htc);
-		
-		a{
-			color:$lightGrey;
-		}
-		
-		a:hover{
-			color:$grey;
-		}
-	}
-}
-
-
-.linkHolder:hover .activeMenuBg{
-/*
-	display: inline;
-	opacity: 1;
 */
-}
-
-.activeMenuBg {
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	margin-left: -113px;
-	margin-top: -120px;
-	z-index: 1;
-	opacity:0;
-}
-
-.ie8 .activeMenuBg{
-	display:none !important;
-}
-
-.navbar{
-	padding-left: 20px;
-	padding-right: 20px;
-	background: $black;
-	border-color: black;
-	
-	.navbar-brand{
-		background: transparent url(../img/whtA.png) no-repeat left center;
-		text-indent: -100000px;
-		width: 30px;
-		margin-right: 20px;
-		background-size: contain;
-		-ms-behavior: url(http://www.wheniamplaying.com/aidaPHP/js/vendor/backgroundsize.min.htc);
 	}
 	
-	
-	.navbar-toggle {
-		background-color: #dddddd;
-	}
-	
-	.nav li a{
-		color:$g1;
-	}
-	
-	.nav li a.active{
-		background: none!important;
-		color: white!important;
-	}
-	
-	.nav li a:hover{
-		color:white;
-	}
-}
-
-.navbar-default .navbar-collapse, .navbar-default .navbar-form {
-		border-color: $g2!important;
-	}
-
-
-.logo{
-	background: transparent url(../img/logo.png) no-repeat 0 0;
-	display: block;
-	width: 68%;
-	height: 40px;
-	background-size: contain;
-	
-	-ms-behavior: url(http://www.wheniamplaying.com/aidaPHP/js/vendor/backgroundsize.min.htc);
-	
-	/* text-indent: -10000px; */
-	margin: 0 auto!important;
-	top: 68px;
-	text-align: center;
-	img{
-		width:18%;
-	}
-}
-
-.blackLogo{
-	background: transparent url(../img/logoBlack.png) no-repeat 0 0;
-	background-size: contain;
-	-ms-behavior: url(http://www.wheniamplaying.com/aidaPHP/js/vendor/backgroundsize.min.htc);
 }

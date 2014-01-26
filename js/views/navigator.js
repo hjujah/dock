@@ -1,6 +1,6 @@
 /*
 Dock - Navigator Page
-Author: Filip Arneric
+Author: Clement Grellier
 */
 
 define(['app', 'raphael', 'text!templates/navigator.html'], function(App, raphael, Template) {
