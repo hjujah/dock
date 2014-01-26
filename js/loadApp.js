@@ -6,6 +6,7 @@ define([
     'views/about',
     'views/navigator',
     'views/main',
+    'views/locality',
     'router'
 ], function (App) {
 
@@ -24,6 +25,7 @@ define([
 	    App.Views.home = new App.Views.Home;
 	    App.Views.about = new App.Views.About;
 	    App.Views.navigator = new App.Views.Navigator;
+	    App.Views.locality = new App.Views.Locality;
 	    
 	    //setup pages
 	    App.Pages = {
@@ -52,6 +54,10 @@ define([
 		    navigator: {
 			    collection: "Navigator",
 			    view: App.Views.navigator
+		    },
+		    locality: {
+			    collection: App.Data.references,
+			    view: App.Views.locality
 		    }
 	    }
 	
