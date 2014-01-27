@@ -40,6 +40,8 @@ define(['app', 'raphael', 'text!templates/navigator.html'], function(App, raphae
             $(window).resize(function() {
                 self.fixWindow();
             });
+
+            self.delegateEvents();
         },
 
         initialize: function() {
@@ -287,7 +289,7 @@ define(['app', 'raphael', 'text!templates/navigator.html'], function(App, raphae
             var h = ($("#svg-container").width() * self.svgHeight) / self.svgWidth;
             var w = ($("#svg-container").height() * self.svgWidth) / self.svgHeight;
 
-            if($(window).height() <= (h + 50)) {
+            if($(window).height() <= (h + $("#navigation").height())) {
                 $("#svg-container, .scene").height(h);
                 $("#main").css("overflow", "hidden");
             } else {

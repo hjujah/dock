@@ -1,6 +1,6 @@
 /*
 Dock Page
-Author: Filip Arneric
+Author: Clement Grellier
 */
 
 define(['app', 'text!templates/locality.html', 'async!http://maps.google.com/maps/api/js?sensor=false'], function(App, Template) {
@@ -11,16 +11,21 @@ define(['app', 'text!templates/locality.html', 'async!http://maps.google.com/map
         firstInit: true,
         markersData: {},
         markers: [],
+        defaultZoom: 13,
+        markerWidth: 19,
         map: {},
-        iterator: 0,
         events: {
             "click #filters div": "filterMarkers"
         },
                                         
         render: function() {
-        	
         	var self = this;
-        	
+
+            self.getData();
+
+            // init iterator
+        	self.iterator = 0;
+
         	//compile template
             var template = Handlebars.compile(self.template);
             self.content = template({
@@ -28,7 +33,7 @@ define(['app', 'text!templates/locality.html', 'async!http://maps.google.com/map
             }); 
         	self.$el.html(self.content);  
 
-            self.getData();
+            self.delegateEvents();
         },
 
         getData: function() {
@@ -50,6 +55,8 @@ define(['app', 'text!templates/locality.html', 'async!http://maps.google.com/map
         },
 
         displayFilters: function() {
+            var self = this;
+
             // get the different types
             var types = [];
 
@@ -57,53 +64,47 @@ define(['app', 'text!templates/locality.html', 'async!http://maps.google.com/map
                 types.push(this.markersData[i].type);
             }
 
+            // unique types only
             types = _.uniq(types);
             
             // display filters
+            // !!! todo : template ?!
             for(var j=0; j<types.length; j++) {
-                $("#filters").append("<div class='active' data-type='" + types[j] + "'>" + types[j] + "</div>");
+                var cleanType = types[j].replace(/\s+/g, '')
+                var div = "<div data-type='" + cleanType + "' style='background-image:url(" + self.icons[cleanType].icon + ")'>" + types[j] + "</div>";
+                $("#filters").append(div);
             }
+
+            setTimeout(function() {
+                $("#filters div").each(function(i) {
+                    $(this).delay(200*i).queue(function(){$(this).addClass('active')});
+                });
+            }, 500);
         },
 
         filterMarkers: function(e) {
+            var self = App.Views.locality;
             $(e.target).toggleClass("active");
 
-            this.closeInfoWindow();
+            // close the info window if necessary
+            self.closeInfoWindow();
 
-            var filtersActive = [];
-            $(".active").each(function() {
-                filtersActive.push($(this).attr("data-type"));
-            });
+            var icon = self.icons[$(e.target).attr("data-type")].icon;
 
-            /*$("#map img").each(function() {
-                if($(this).width() == 22) {
-                    $(this).fadeOut(200);
-                }
-            });*/
-
-            // filter the markers
-            for(var i=0; i<this.markers.length; i++) {
-                this.markers[i].setVisible(false);
-                for(var j=0; j<filtersActive.length; j++) {
-                    if(this.markers[i].type == filtersActive[j]) {
-
-                        this.markers[i].setVisible(true);
-
-                        /*$("img[usemap='#gmimap" + this.markersData[i].id + "']").fadeIn(200);
-                        
-                        var allImages = $('#map img');
-
-                        var icons = allImages.filter(function(){
-                          return ($(this).width() == 22);
-                        });
-
-                        for(var k=1; k<=icons.length; k++) {
-                            if(k == App.Views.locality.markersData[i].id) {
-                                $(icons[k]).fadeIn();
-                            }
-                        }*/
-                    }
-                }
+            if(!$(e.target).hasClass("active")) {
+                // hide markers
+                $('#map img[src*="' + icon + '"]').animate({
+                    'opacity': 0
+                }, 300, function() {
+                    $(this).css('margin-top', '-30px');
+                    $(this).parent().css("overflow", "inherit");
+                });
+            } else {
+                // show markers
+                $('#map img[src*="' + icon + '"]').animate({
+                    'opacity': 1,
+                    'margin-top': '0px'
+                }, 200);
             }
         },
 
@@ -163,7 +164,7 @@ define(['app', 'text!templates/locality.html', 'async!http://maps.google.com/map
             // map options
             var mapOptions = {
                 center: new google.maps.LatLng(50.075577, 14.43781),
-                zoom: 14,
+                zoom: self.defaultZoom,
                 mapTypeId: 'Styled',
                 mapTypeControlOptions: {
                   mapTypeIds: []
@@ -171,6 +172,7 @@ define(['app', 'text!templates/locality.html', 'async!http://maps.google.com/map
             };
 
             // different icons for types
+            // !!! todo : make it dynamic?
             self.icons = {
               restaurant: {
                 icon: App.baseurl + 'img/locality/marker.png'
@@ -196,14 +198,13 @@ define(['app', 'text!templates/locality.html', 'async!http://maps.google.com/map
             // add markers
             for(var i=0; i<self.markersData.length; i++) {
                 setTimeout(function() {
-                  self.addMarker();
+                    self.addMarker();
                 }, i * 200);
             }
         },
 
         addMarker: function() {
             var self = this;
-
             var marker = self.markersData[self.iterator];
 
             // create the marker with options
@@ -211,7 +212,7 @@ define(['app', 'text!templates/locality.html', 'async!http://maps.google.com/map
                 position: new google.maps.LatLng(marker.lat, marker.lng),
                 animation: google.maps.Animation.DROP,
                 optimized: false,
-                icon: self.icons[marker.type].icon
+                icon: self.icons[marker.type.replace(/\s+/g, '')].icon
             }));
 
             var m = self.markers[self.iterator];

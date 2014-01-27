@@ -56,8 +56,10 @@ define([
 			    view: App.Views.navigator
 		    },
 		    locality: {
-			    collection: App.Data.references,
-			    view: App.Views.locality
+			    collection: "",
+			    view: {
+				    0: App.Views.locality
+			    }
 		    }
 	    }
 	
