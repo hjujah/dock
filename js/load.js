@@ -29,7 +29,9 @@ require.config({
         'cssPlugin' : 'libs/CSSPlugin',
         'easing' : 'libs/masterslider/jquery.easing.min',
         'fittext' : 'libs/jquery.fittext',
-        'raphael' : 'libs/raphael'
+        'raphael' : 'libs/raphael',
+        'three' : 'libs/Three',
+        'tween' : 'libs/Tween'
     },
     shim: {
         bootstrap: {
