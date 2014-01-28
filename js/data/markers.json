@@ -32,6 +32,41 @@
 		"title": "test test",
 		"lat": "50.080674",
 		"lng" : "14.408176",
-		"type": "testtype"
+		"type": "test type"
+	},
+	{
+		"id": 6,
+		"title": "test location",
+		"lat": "50.085005",
+		"lng" : "14.458176",
+		"type": "test type"
+	},
+	{
+		"id": 7,
+		"title": "location test lorem ipsum",
+		"lat": "50.065005",
+		"lng" : "14.458176",
+		"type": "restaurant"
+	},
+	{
+		"id": 8,
+		"title": "lorem ipsum test",
+		"lat": "50.082005",
+		"lng" : "14.468176",
+		"type": "restaurant"
+	},
+	{
+		"id": 9,
+		"title": "Location test test test",
+		"lat": "50.078561",
+		"lng" : "14.454994",
+		"type": "lorem"
+	},
+	{
+		"id": 10,
+		"title": "dahi hjhjd ezdheizhfi hrfirhi",
+		"lat": "50.068561",
+		"lng" : "14.454994",
+		"type": "lorem"
 	}
 ]
