@@ -8913,6 +8913,12 @@ img {
 
 /* ------------------ LOCALITY --------------- */
 /* line 545, ../sass/main.scss */
+.cube .locality {
+  background-color: #000;
+  text-align: left;
+}
+
+/* line 550, ../sass/main.scss */
 #map {
   height: -moz-calc(100% - 60px);
   height: -o-calc(100% - 60px);
@@ -8920,33 +8926,42 @@ img {
   height: calc(100% - 60px);
 }
 
-/* line 549, ../sass/main.scss */
+/* line 554, ../sass/main.scss */
 #filters {
+  font-family: 'FuturaBT-LightCondensed';
   font-size: 20px;
   height: 60px;
   text-transform: uppercase;
   z-index: 500;
   padding: 10px 5%;
-  width: 90%;
 }
 
-/* line 558, ../sass/main.scss */
+/* line 563, ../sass/main.scss */
 #filters div {
+  background-repeat: no-repeat;
+  background-position: -20% center;
+  background-size: 0;
   border: 2px solid #fff;
   cursor: pointer;
   color: #dedede;
   display: inline-block;
   margin: 0 10px;
-  padding: 3px 18px;
+  padding: 3px 12px;
   overflow: hidden;
   outline: none;
   position: relative;
   -webkit-transition: all 0.3s;
   -moz-transition: all 0.3s;
   transition: all 0.3s;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
-/* line 573, ../sass/main.scss */
+/* line 587, ../sass/main.scss */
 #filters div:after {
   content: '';
   position: absolute;
@@ -8966,23 +8981,70 @@ img {
   transform: translateX(-50%) translateY(-50%) rotate(45deg);
 }
 
-/* line 592, ../sass/main.scss */
+/* line 606, ../sass/main.scss */
 #filters div:hover {
   color: #fff;
 }
 
-/* line 596, ../sass/main.scss */
+/* line 610, ../sass/main.scss */
 #filters div.active {
+  background-position: 8px center;
+  background-size: 15px;
   color: #000;
+  padding: 3px 12px 3px 30px;
 }
 
-/* line 600, ../sass/main.scss */
+/* line 617, ../sass/main.scss */
 #filters div.active:hover:after {
   opacity: 0.9;
 }
 
-/* line 604, ../sass/main.scss */
+/* line 621, ../sass/main.scss */
 #filters div.active:after {
-  height: 298%;
+  height: 320%;
   opacity: 1;
+}
+
+/* line 628, ../sass/main.scss */
+.marker {
+  z-index: 98;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  text-align: center;
+  cursor: pointer;
+  /*margin-left: -50px;*/
+  margin-top: -35px;
+  overflow: visible;
+  /*display: none;*/
+}
+
+/* line 640, ../sass/main.scss */
+.marker-symbol {
+  position: relative;
+  display: inline-block;
+  height: 40px;
+  width: 40px;
+  background: green;
+  overflow: hidden;
+}
+
+/* line 648, ../sass/main.scss */
+.marker-label {
+  font-weight: bold;
+  font-size: 0.9em;
+  color: #fff;
+}
+
+/* line 654, ../sass/main.scss */
+.navigate-point {
+  z-index: 97;
+  position: absolute;
+  overflow: hidden;
+  width: 80px;
+  height: 80px;
+  margin-left: -40px;
+  margin-top: -40px;
+  background: red;
+  cursor: pointer;
 }

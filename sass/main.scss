@@ -624,6 +624,44 @@ img{
 	}
 
 
+//3d Experience
+.marker {
+  z-index: 98;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  text-align: center;
+  cursor: pointer;
+  /*margin-left: -50px;*/
+  margin-top: -35px;
+  overflow: visible;
+  /*display: none;*/
+}
+.marker-symbol {
+  position: relative;
+  display: inline-block;
+  height: 40px;
+  width: 40px;
+  background: green;
+  overflow: hidden;
+}
+.marker-label {
+  font-weight: bold;
+  font-size: 0.9em;
+  color: #fff;
+}
+
+.navigate-point {
+  z-index: 97;
+  position: absolute;
+  overflow: hidden;
+  width: 80px;
+  height: 80px;
+  margin-left: -40px;
+  margin-top: -40px;
+  background: red;
+  cursor: pointer;
+}
 
 
 
