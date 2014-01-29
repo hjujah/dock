@@ -4,7 +4,7 @@
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
 <!--
-Filip Arneric and Clemont Grellier
+Filip Arneric and Clement Grellier
  _             _   _______ _____ _____  _   _  _____ _   _ 
 | |           | | / /_   _|_   _/  __ \| | | ||  ___| \ | |
 | |__  _   _  | |/ /  | |   | | | /  \/| |_| || |__ |  \| |
