@@ -102,10 +102,8 @@ define(['app', 'raphael', 'text!templates/navigator.html'], function(App, raphae
             $('.scene').removeClass("showScene");
             $("#svg-container").addClass("noSelect");
 
-            setTimeout(function() {
-                // navigate to the building and draw building
-                App.Router.navigate(App.lang + "/navigator/" + nbBuilding, {trigger: true});
-            }, 300);
+            // navigate to the building and draw building
+            App.Router.navigate(App.lang + "/navigator/" + nbBuilding, {trigger: true});
         },
 
         styleElements: function() {
@@ -172,26 +170,27 @@ define(['app', 'raphael', 'text!templates/navigator.html'], function(App, raphae
             self.styleElements();
         },
 
+        // returns the building object based on the number
+        getBuilding: function(nb) {
+            var self = this;
+
+            // filters building
+            var building = jQuery.grep(self.buildings, function(element, index){
+              return element.id == nb;
+            });
+
+            return building;
+        },
+
+
         handleClickFloor: function() {
             var self = this;
 
             $('.scene').removeClass("showScene");
             $("#svg-container").addClass("noSelect");
 
-            setTimeout(function() {
-                // navigate to floor and draw floor
-                App.Router.navigate(App.lang + "/navigator/" + self.data("building") + "/" + self.data("floor"), {trigger: true});
-            }, 300);
-        },
-
-        // returns the building object based on the number
-        getBuilding: function(nb) {
-            var self = this;
-
-            var building = jQuery.grep(self.buildings, function(element, index){
-              return element.id == nb;
-            });
-            return building;
+            // navigate to floor and draw floor
+            App.Router.navigate(App.lang + "/navigator/" + self.data("building") + "/" + self.data("floor"), {trigger: true});
         },
 
         drawFloor: function(nbBuilding, nbFloor) {

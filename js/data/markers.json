@@ -68,5 +68,12 @@
 		"lat": "50.068561",
 		"lng" : "14.454994",
 		"type": "lorem"
+	},
+	{
+		"id": 11,
+		"title": "rfegtegtrhyhyzt",
+		"lat": "50.058561",
+		"lng" : "14.467994",
+		"type": "lorem ipsum"
 	}
 ]

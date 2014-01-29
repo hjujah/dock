@@ -30,7 +30,7 @@ define(['app', 'text!templates/locality.html', 'async!http://maps.google.com/map
             var template = Handlebars.compile(self.template);
             self.content = template({
                 data: self.model
-            }); 
+            });
         	self.$el.html(self.content);  
 
             self.delegateEvents();
@@ -58,20 +58,20 @@ define(['app', 'text!templates/locality.html', 'async!http://maps.google.com/map
             var self = this;
 
             // get the different types
-            var types = [];
+            var typesArray = [];
 
             for(var i=0; i<this.markersData.length; i++) {
-                types.push(this.markersData[i].type);
+                typesArray.push(this.markersData[i].type);
             }
 
             // unique types only
-            types = _.uniq(types);
+            self.types = _.uniq(typesArray);
             
             // display filters
             // !!! todo : template ?!
-            for(var j=0; j<types.length; j++) {
-                var cleanType = types[j].replace(/\s+/g, '')
-                var div = "<div data-type='" + cleanType + "' style='background-image:url(" + self.icons[cleanType].icon + ")'>" + types[j] + "</div>";
+            for(var j=0; j<self.types.length; j++) {
+                var cleanType = self.types[j].replace(/\s+/g, '')
+                var div = "<div data-type='" + cleanType + "' style='background-image:url(" + self.icons[cleanType].icon + ")'>" + self.types[j] + "</div>";
                 $("#filters").append(div);
             }
 
@@ -173,6 +173,7 @@ define(['app', 'text!templates/locality.html', 'async!http://maps.google.com/map
 
             // different icons for types
             // !!! todo : make it dynamic?
+
             self.icons = {
               restaurant: {
                 icon: App.baseurl + 'img/locality/marker.png'
@@ -182,6 +183,9 @@ define(['app', 'text!templates/locality.html', 'async!http://maps.google.com/map
               },
               lorem: {
                 icon: App.baseurl + 'img/locality/marker_3.png'
+              },
+              loremipsum: {
+                icon: App.baseurl + 'img/locality/marker_4.png'
               }
             };
 
@@ -193,7 +197,7 @@ define(['app', 'text!templates/locality.html', 'async!http://maps.google.com/map
             // close info window on click on map
             google.maps.event.addListener(self.map, "click", function () {
                 self.closeInfoWindow();
-            }); 
+            });
 
             // add markers
             for(var i=0; i<self.markersData.length; i++) {
