@@ -38,7 +38,7 @@ define(['app', 'text!templates/locality.html', 'async!http://maps.google.com/map
 
         getData: function() {
             var self = this;
-
+            
             // get data of markers
             $.getJSON(App.baseurl + "js/data/markers.json", function(data) {
                 self.markersData = data;

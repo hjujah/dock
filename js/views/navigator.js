@@ -12,8 +12,8 @@ define(['app', 'raphael', 'text!templates/navigator.html'], function(App, raphae
         flats: {},
         buildings: {},
         els: {},
-        svgWidth: 851,
-        svgHeight: 349,
+        svgWidth: 1920,
+        svgHeight: 1080,
         paper: '',
         events: {
             "click #overlay" : "hidePopin"
@@ -37,8 +37,23 @@ define(['app', 'raphael', 'text!templates/navigator.html'], function(App, raphae
 
             self.getData();
 
+            var waitForFinalEvent = (function () {
+              var timers = {};
+              return function (callback, ms, uniqueId) {
+                if (!uniqueId) {
+                  uniqueId = "Don't call this twice without a uniqueId";
+                }
+                if (timers[uniqueId]) {
+                  clearTimeout (timers[uniqueId]);
+                }
+                timers[uniqueId] = setTimeout(callback, ms);
+              };
+            })();
+
             $(window).resize(function() {
-                self.fixWindow();
+                waitForFinalEvent(function(){
+                  self.fixWindow();
+                }, 300, "resize");
             });
 
             self.delegateEvents();
@@ -136,12 +151,12 @@ define(['app', 'raphael', 'text!templates/navigator.html'], function(App, raphae
                 });
             }
 
-            this.animate({opacity: 0.5}, 100);
+            this.animate({opacity: 0.5}, 200);
         },
 
         svg_mouseout: function() {
             $(".caption").removeClass("showCaption");
-            this.animate({opacity: 0}, 100);
+            this.animate({opacity: 0}, 200);
         },
 
         drawBuilding: function(nbBuilding) {
@@ -272,7 +287,7 @@ define(['app', 'raphael', 'text!templates/navigator.html'], function(App, raphae
             // create div with new image
             var id = img.split('/').pop().split('.')[0];
             $("#scenes-container").prepend("<div class='scene' id='" + id + "'></div>");
-            $('#' + id).css('background-image', 'url(' + App.baseurl + 'img/' + img + ')');
+            $('#' + id).css('background-image', 'url(' + App.baseurl + 'img/navigator/' + img + ')');
 
             // show the new div
             setTimeout(function() {
@@ -288,22 +303,26 @@ define(['app', 'raphael', 'text!templates/navigator.html'], function(App, raphae
             var h = ($("#svg-container").width() * self.svgHeight) / self.svgWidth;
             var w = ($("#svg-container").height() * self.svgWidth) / self.svgHeight;
 
-            if($(window).height() <= (h + $("#navigation").height())) {
-                $("#svg-container, .scene").height(h);
-                $("#main").css("overflow", "hidden");
-            } else {
-                $("#svg-container, .scene").height("100%");
-                 $("#main").css("overflow", "inherit");
-            }
+            // !!! todo : improve code
 
-            if(($(window).width() <= (w/2)) && $(window).width() > 320) {
-                $("#svg-container, .scene").addClass("fixWindow").width(w/2);
-                $("#svg-container, .scene").css("margin-left", - (w/4));
+            // fix for height
+            if($(window).height() <= (h + $("#navigation").height())) {
+                $("#svg-container, .scene").height(h).css("margin-top", "-8%");
                 $("#main").css("overflow", "hidden");
             } else {
-                $("#svg-container, .scene").removeClass("fixWindow").width("100%");
-                $("#svg-container, .scene").css("margin-left", 0);
-                $("#main").css("overflow", "inherit");
+                $("#svg-container, .scene").height("100%").css("margin-top", "0");;
+                 $("#main").css("overflow", "inherit");
+
+                // fix for width
+                if(($(window).width() <= w) && $(window).width() > 768) {
+                    $("#svg-container, .scene").addClass("fixWindow").width(w);
+                    $("#svg-container, .scene").css("margin-left", - (w/2));
+                    $("#main").css("overflow", "hidden");
+                } else {
+                    $("#svg-container, .scene").removeClass("fixWindow").width("100%");
+                    $("#svg-container, .scene").css("margin-left", 0);
+                    $("#main").css("overflow", "inherit");
+                }
             }
         }
 

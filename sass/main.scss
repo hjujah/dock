@@ -415,6 +415,14 @@ img{
     width: 100%;
 }
 
+#svg-container {
+	-webkit-transition: all 300ms ease;
+    -moz-transition: all 300ms ease;
+    -ms-transition: all 300ms ease;
+    -o-transition: all 300ms ease;
+    transition: all 300ms ease;
+}
+
 #svg-container svg {
     z-index: 300;
 }
@@ -426,7 +434,7 @@ img{
 }
 
 #scene {
-    background-image: url("../img/bg.jpg");
+    background-image: url("../img/navigator/fazeII.jpg");
 }
 
 .scene {
@@ -441,12 +449,12 @@ img{
     width: 100%;
     z-index: 5;
     @include transform(scale(1.03));
-    -webkit-transition: opacity 300ms ease, -webkit-transform 1000ms ease;
-    -moz-transition: opacity 300ms ease, -moz-transform 1000ms ease;
-    -ms-transition: opacity 300ms ease, -ms-transform 1000ms ease;
-    -o-transition: opacity 300ms ease, -o-transform 1000ms ease;
-    transition: opacity 300ms ease, transform 1000ms ease;
-    @media (max-width: 320px) {
+    -webkit-transition: opacity 300ms ease, -webkit-transform 1000ms ease, height 300ms ease;
+    -moz-transition: opacity 300ms ease, -moz-transform 1000ms ease, height 300ms ease;
+    -ms-transition: opacity 300ms ease, -ms-transform 1000ms ease, height 300ms ease;
+    -o-transition: opacity 300ms ease, -o-transform 1000ms ease, height 300ms ease;
+    transition: opacity 300ms ease, transform 1000ms ease, height 300ms ease;
+    @media (max-width: 768px) {
 		background-size:contain!important;
 	}
 }
@@ -536,6 +544,10 @@ img{
 #flat-popin.showPopin {
 	opacity: 1;
 	top: 25%;
+}
+
+.rvml {
+	z-index: 800;
 }
 
 
