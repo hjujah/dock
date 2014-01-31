@@ -102,12 +102,13 @@ define(['app', 'raphael', 'text!templates/navigator.html'], function(App, raphae
             }
 
             this.styleElements();
-            this.fixWindow();
 
             // add click event handler on each building
             for (var i in this.els) {
                 this.els[i].click(this.handleClickBuilding);
             }
+
+            this.fixWindow();
         },
 
         handleClickBuilding: function() {
@@ -294,7 +295,7 @@ define(['app', 'raphael', 'text!templates/navigator.html'], function(App, raphae
                 $('#' + id).addClass("showScene");
                 $("#svg-container").removeClass("noSelect");
                 self.fixWindow();
-            }, 100);
+            }, 300);
         },
 
         fixWindow: function() {
@@ -303,27 +304,35 @@ define(['app', 'raphael', 'text!templates/navigator.html'], function(App, raphae
             var h = ($("#svg-container").width() * self.svgHeight) / self.svgWidth;
             var w = ($("#svg-container").height() * self.svgWidth) / self.svgHeight;
 
-            // !!! todo : improve code
-
             // fix for height
-            if($(window).height() <= (h + $("#navigation").height())) {
-                $("#svg-container, .scene").height(h).css("margin-top", "-8%");
+            if(($(window).height() <= (h + $("#navigation").height())) && $(window).width() > 768) {
+                self.cleanWidth();
+                $("#svg-container, .scene").height(h).css("margin-top", "-9%");
                 $("#main").css("overflow", "hidden");
             } else {
-                $("#svg-container, .scene").height("100%").css("margin-top", "0");;
-                 $("#main").css("overflow", "inherit");
+                self.cleanHeight();
 
                 // fix for width
-                if(($(window).width() <= w) && $(window).width() > 768) {
+                if($(window).width() <= w && $(window).width() > 768) {
+                    self.cleanHeight();
                     $("#svg-container, .scene").addClass("fixWindow").width(w);
                     $("#svg-container, .scene").css("margin-left", - (w/2));
                     $("#main").css("overflow", "hidden");
                 } else {
-                    $("#svg-container, .scene").removeClass("fixWindow").width("100%");
-                    $("#svg-container, .scene").css("margin-left", 0);
-                    $("#main").css("overflow", "inherit");
+                    self.cleanWidth();
                 }
             }
+        },
+
+        cleanWidth: function() {
+            $("#svg-container, .scene").removeClass("fixWindow").width("100%");
+            $("#svg-container, .scene").css("margin-left", 0);
+            $("#main").css("overflow", "inherit");
+        },
+
+        cleanHeight: function() {
+            $("#svg-container, .scene").height("100%").css("margin-top", "0");;
+            $("#main").css("overflow", "inherit");
         }
 
     });
