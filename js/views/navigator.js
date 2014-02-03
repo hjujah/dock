@@ -140,15 +140,15 @@ define(['app', 'raphael', 'text!templates/navigator.html'], function(App, raphae
             }
         },
 
-        svg_mouseover: function() {
+        svg_mouseover: function(e) {
             // if element contains data : display it in caption
             if(this.data("content")) {
                 $(".caption").addClass("showCaption").text(this.data("content"));
 
                 // position caption
                 $(".caption").css({
-                    'left': this.getBBox().x + this.getBBox().width + "px",
-                    'top': this.getBBox().y + this.getBBox().height + "px"
+                    'left': $(e.target).position().left + "px",
+                    'top': $(e.target).position().top + "px"
                 });
             }
 
