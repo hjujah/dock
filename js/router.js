@@ -38,7 +38,7 @@ define(['app'], function(App) {
 	    initialize: function(){
 		   var self = this;
 		   Backbone.history = Backbone.history || new Backbone.History({});
-		   var root = "~filip/dock/";
+		   var root = "/";
 		   var enablePushState = true;
 		   var pushState = !! (enablePushState && window.history && window.history.pushState);
 	       Backbone.history.start({
